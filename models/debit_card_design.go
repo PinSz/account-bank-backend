@@ -1,10 +1,10 @@
 package models
 
 type DebitCardDesign struct {
-	CardID      string  `gorm:"primaryKey" json:"card_id"`
-	UserID      *string `json:"user_id"`
-	Color       *string `json:"color"`
-	BorderColor *string `json:"border_color"`
+	CardID      string  `gorm:"primaryKey" json:"cardId"`
+	UserID      *string `json:"userId,omitempty"`
+	Color       *string `json:"color,omitempty"`
+	BorderColor *string `json:"borderColor,omitempty"`
 }
 
 func (DebitCardDesign) TableName() string {

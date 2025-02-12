@@ -20,16 +20,28 @@ func (c *DebitCardController) GetDebitCardInfo(ctx *gin.Context) {
 		UserID string `json:"userId" binding:"required"`
 	}
 
+	// ✅ ตรวจสอบว่าข้อมูลที่รับมาถูกต้องหรือไม่
 	if err := ctx.ShouldBindJSON(&request); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"status": http.StatusBadRequest,
+			"error":  "Invalid request",
+		})
 		return
 	}
 
+	// ✅ ดึงข้อมูลจาก Service
 	data, err := c.Service.GetDebitCardInfo(request.UserID)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"status": http.StatusBadRequest,
+			"error":  "Failed to retrieve debit card info",
+		})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, data)
+	// ✅ ส่งข้อมูลกลับตามรูปแบบที่ต้องการ
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   data,
+	})
 }

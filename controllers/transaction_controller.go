@@ -20,9 +20,17 @@ func (tc *TransactionController) GetTransactionsByUserID(c *gin.Context) {
 
 	transactions, err := tc.TransactionService.GetTransactionByUserID(userId)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": http.StatusBadRequest,
+			"error":  "Failed to get transactions",
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, transactions)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data": gin.H{
+			"transactions": transactions,
+		},
+	})
 }

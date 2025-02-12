@@ -2,6 +2,7 @@ package services
 
 import (
 	"account-bank-backend/repositories"
+	"fmt"
 )
 
 type UserService struct {
@@ -15,5 +16,9 @@ func NewUserService(repo *repositories.UserRepository) *UserService {
 
 // ดึงชื่อของ user ตาม userID
 func (s *UserService) GetUserNameByID(userId string) (string, error) {
-	return s.Repo.GetUserNameByID(userId)
+	userName, err := s.Repo.GetUserNameByID(userId)
+	if err != nil {
+		return "", fmt.Errorf("failed to get user name for user")
+	}
+	return userName, nil
 }

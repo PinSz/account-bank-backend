@@ -22,9 +22,18 @@ func (uc *UserController) GetUserName(c *gin.Context) {
 
 	name, err := uc.UserService.GetUserNameByID(userId)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": http.StatusBadRequest,
+			"error":  err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"user_id": userId, "name": name})
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data": gin.H{
+			"userId": userId,
+			"name":   name,
+		},
+	})
 }

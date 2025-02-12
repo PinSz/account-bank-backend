@@ -47,9 +47,6 @@ func main() {
 
 	// Setup API Routes
 	routes.SetupRouter(router, config.DB)
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "pong"})
-	})
 
 	// Run Server
 	log.Printf("🚀 Server running")

@@ -3,6 +3,7 @@ package services
 import (
 	"account-bank-backend/models"
 	"account-bank-backend/repositories"
+	"fmt"
 )
 
 type AccountService interface {
@@ -18,5 +19,9 @@ func NewAccountService(accountRepo repositories.AccountRepository) AccountServic
 }
 
 func (s *accountService) GetAccountDetails(userID string) ([]models.AccountResponse, error) {
-	return s.accountRepo.GetAccountDetails(userID)
+	accounts, err := s.accountRepo.GetAccountDetails(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get account details for user %s: %w", userID, err)
+	}
+	return accounts, nil
 }

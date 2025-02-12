@@ -3,6 +3,7 @@ package services
 import (
 	"account-bank-backend/models"
 	"account-bank-backend/repositories"
+	"fmt"
 )
 
 type BannerService struct {
@@ -16,5 +17,9 @@ func NewBannerService(repo *repositories.BannerRepository) *BannerService {
 
 // ✅ ดึง Banner ตาม userId
 func (s *BannerService) GetBannerByUserID(userId string) (*models.Banner, error) {
-	return s.Repo.GetBannerByUserID(userId)
+	banner, err := s.Repo.GetBannerByUserID(userId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get banner for user ")
+	}
+	return banner, nil
 }

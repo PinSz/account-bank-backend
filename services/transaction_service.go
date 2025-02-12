@@ -3,6 +3,7 @@ package services
 import (
 	"account-bank-backend/models"
 	"account-bank-backend/repositories"
+	"fmt"
 )
 
 type TransactionService struct {
@@ -16,5 +17,9 @@ func NewTransactionService(repo *repositories.TransactionRepository) *Transactio
 
 // ดึงรายการธุรกรรมตาม userID
 func (s *TransactionService) GetTransactionByUserID(userId string) ([]models.Transaction, error) {
-	return s.Repo.GetTransactionByUserID(userId)
+	transactions, err := s.Repo.GetTransactionByUserID(userId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get transactions for user")
+	}
+	return transactions, nil
 }

@@ -20,11 +20,17 @@ func (c *BannerController) GetBannersByUser(ctx *gin.Context) {
 	userId := ctx.Param("userId")
 
 	// เรียกใช้ Service
-	banners, err := c.BannerService.GetBannersByUserID(userId)
+	banner, err := c.BannerService.GetBannerByUserID(userId)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get banners"})
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"status": http.StatusBadRequest,
+			"error":  "Failed to get banner",
+		})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"banners": banners})
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"banner": banner,
+	})
 }

@@ -2,6 +2,7 @@ package services
 
 import (
 	"account-bank-backend/repositories"
+	"fmt"
 )
 
 type DebitCardService struct {
@@ -18,14 +19,29 @@ type DebitCardResponse struct {
 	Issuer      *string `json:"issuer"`
 	Number      *string `json:"number"`
 	Color       *string `json:"color"`
-	BorderColor *string `json:"border_color"`
+	BorderColor *string `json:"borderColor"`
 }
 
 func (s *DebitCardService) GetDebitCardInfo(userID string) (*DebitCardResponse, error) {
-	card, _ := s.Repo.GetDebitCardByUserID(userID)
-	status, _ := s.Repo.GetDebitCardStatusByUserID(userID)
-	detail, _ := s.Repo.GetDebitCardDetailByUserID(userID)
-	design, _ := s.Repo.GetDebitCardDesignByUserID(userID)
+	card, err := s.Repo.GetDebitCardByUserID(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get debit card: %w", err)
+	}
+
+	status, err := s.Repo.GetDebitCardStatusByUserID(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get debit card status: %w", err)
+	}
+
+	detail, err := s.Repo.GetDebitCardDetailByUserID(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get debit card detail: %w", err)
+	}
+
+	design, err := s.Repo.GetDebitCardDesignByUserID(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get debit card design: %w", err)
+	}
 
 	return &DebitCardResponse{
 		Name:        card.Name,
