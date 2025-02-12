@@ -20,7 +20,7 @@ DATABASE_URL=postgresql://postgres:postgres@db:5432/account-bank-backend?sslmode
 docker-compose up -d --build
 docker-compose up -d
 
-==========================================
+-------------------------------------------
 ในการเรียกใช้งาน ทดสอบผ่าน postman
 post ==> http://localhost:4000/api/account/details
 response --> {
@@ -104,4 +104,5 @@ response --> {
     "status": 200
 }
 
+-------------------------------------------
 # 🙏 Thank You! 🎉
